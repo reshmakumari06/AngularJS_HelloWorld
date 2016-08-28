@@ -1,0 +1,12 @@
+#c1, #c2 {
+    width: 33%; float:left; // 1/3 of 100%
+}
+
+#c3 {
+    width: auto;
+    //or width:34%;
+}
+
+body {
+    color: purple;
+    background-color: #ffffff }

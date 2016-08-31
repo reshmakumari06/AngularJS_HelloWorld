@@ -14,6 +14,16 @@
 <!-- Latest compiled JavaScript -->
 <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script type="text/javascript"> 
+$(document).ready(function(){
+					    $('#listUsers').on('click', 'li', function() {
+						var te=$(this).text();
+					        alert("Hello world"+ te);
+					    });
+					});
+
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
    
@@ -21,15 +31,19 @@
       <h2>AngularJS Demo Application</h2>
       
       <div class="row" ng-app = "mainApp" ng-controller = "helloController">
+
+	<div class="col-sm-3"> Col-1</div>
+
 	<div class="col-sm-3">
 	<p>Type Your Name: <input type = "text" ng-model = "name" /></p>
          <button ng-click = "Greet()">Greet</button>
          <p>AngularJS Greets : {{greetings}}</p>
 	</div>
 
-    	<div class="col-sm-3" ng-init = "users = ['Reshma1', 'Reshma2', 'Reshma3']">
+    	<div class="col-sm-3" ng-controller = "userNamesController">
+	<button ng-click = "displayUsers()">List Users</button>
 
-	<ol>
+	<ol id = "listUsers">
             <li ng-repeat = "user in users">
                {{ 'user: ' + user }}
             </li>
@@ -37,12 +51,16 @@
 
 	</div>
         
-	<div class="col-sm-3"> Reshma</div>
+	<div class="col-sm-3"> Col-4</div>
          
       </div>
       
       <script>
          var mainApp = angular.module("mainApp", []);
+
+	 mainApp.run(function ($rootScope) {
+    		$rootScope.usernames = 'default_XYZ';
+	 });
          
          mainApp.factory('WishFactory', function() {
             var factory = {};
@@ -64,9 +82,16 @@
             }
          });
          
-         mainApp.controller('helloController', function($scope, GreetService) {
+         mainApp.controller('helloController', function($scope,$rootScope, GreetService) {
             $scope.Greet = function() {
                $scope.greetings = GreetService.Upper($scope.name);
+	       $rootScope.usernames = $rootScope.usernames +";" + $scope.name;
+            }
+         });
+
+	mainApp.controller('userNamesController', function($scope,$rootScope) {
+            $scope.displayUsers = function() {
+	       $scope.users = $rootScope.usernames.split(";");
             }
          });
       </script>
